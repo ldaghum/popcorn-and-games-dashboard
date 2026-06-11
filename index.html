@@ -335,11 +335,10 @@ new Chart(ctxG,{
 document.getElementById('growthLegend').innerHTML =
   `<div class="lg"><span class="dot" style="background:${C.gold}"></span>All attendees</div>`+
   `<div class="lg"><span class="dot" style="background:#4FD1C5"></span>GAA intersection cohort</div>`+
-  `<div class="lg"><span class="dot" style="background:rgba(255,201,60,0.45)"></span>Summer (ongoing)</div>`+
   `<div class="lg"><span class="dot" style="background:rgba(79,209,197,0.30); border:1px dashed rgba(79,209,197,0.7)"></span>Spring break week (Mar 18)</div>`;
 const peak = D.per_event.reduce((a,b)=>b.total>a.total?b:a);
 document.getElementById('growth-insight').innerHTML =
-  `<b>The trajectory:</b> a 9-person opening night in September grew into a steady 50–69 each week by spring — peak <b>${peak.total}</b> on <b>${peak.label}</b> — and the event carried roughly ${S.sem_avg['Summer 2026']} per week into the smaller summer term, when most pathway students have completed or gone home. Dips line up with breaks and cancellations; the trend stayed up and to the right.`;
+  `<b>The trajectory:</b> a 9-person opening wednesday in September grew into a steady 50–69 each week by spring — peak <b>${peak.total}</b> on <b>${peak.label}</b> — and the event carried roughly ${S.sem_avg['Summer 2026']} per week into the smaller summer term, a semester that experiences a significantly lower volume of new enrollees, while continuing students predominantly return home.`;
 
 // ---- 2. Program stacked area ----
 const cats = D.prog_categories;
