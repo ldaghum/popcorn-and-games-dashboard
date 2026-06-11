@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Popcorn &amp; Games — Attendance &amp; Growth</title>
+<title>Popcorn &amp; Games — Attendance, Growth &amp; GPA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -31,14 +31,14 @@
     --gold:#FFC93C; --gold-deep:#F5A623;
     --cream:#F4ECD8; --muted:#9C907A; --muted2:#6E6454;
     --gaa:#FFC93C; --ug:#FF8360; --iep:#4FD1C5; --ms:#B79CED; --phd:#9AE36D; --ns:#6E6454;
-    --ret:#FFC93C; --first:#4FD1C5;
+    --fall:#FF8360; --spring:#FFC93C; --summer:#4FD1C5;
+    --pos:#9AE36D; --neg:#FF8360;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
     background:var(--bg); color:var(--cream);
-    font-family:'Inter',sans-serif; line-height:1.5;
-    -webkit-font-smoothing:antialiased;
+    font-family:'Inter',sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased;
     background-image:radial-gradient(900px 500px at 80% -10%, rgba(255,201,60,0.10), transparent 60%);
   }
   .wrap{max-width:1180px; margin:0 auto; padding:40px 28px 80px}
@@ -48,16 +48,19 @@
   header{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px; padding-bottom:30px; border-bottom:1px solid var(--line); margin-bottom:34px}
   h1{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(40px,7vw,76px); line-height:0.94; letter-spacing:-0.02em; margin-top:14px}
   h1 .amp{color:var(--gold); font-style:italic; font-weight:700}
-  .sub{color:var(--muted); font-size:15px; margin-top:10px; max-width:46ch}
+  .sub{color:var(--muted); font-size:15px; margin-top:10px; max-width:50ch}
+  .sub b{color:var(--cream)}
   .daterange{font-family:'Space Mono',monospace; font-size:13px; color:var(--cream); text-align:right; white-space:nowrap}
   .daterange small{display:block; color:var(--muted); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:4px}
+  .daterange .logo{display:block; height:36px; width:auto; margin:0 0 16px auto}
+  @media(max-width:860px){.daterange .logo{margin-left:0}}
 
   .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:40px}
   .kpi{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px 20px 18px; position:relative; overflow:hidden}
-  .kpi::after{content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--gold); opacity:0.0}
+  .kpi::after{content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--gold); opacity:0}
   .kpi:hover::after{opacity:0.9}
-  .kpi .num{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(30px,4vw,44px); line-height:1; color:var(--cream)}
-  .kpi .num .unit{font-size:18px; color:var(--gold); margin-left:2px}
+  .kpi .num{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(26px,3.4vw,40px); line-height:1; color:var(--cream)}
+  .kpi .num em{font-style:normal; color:var(--gold)}
   .kpi .lab{font-size:12px; color:var(--muted); margin-top:10px; letter-spacing:0.02em}
   .kpi .meta{font-family:'Space Mono',monospace; font-size:11px; color:var(--gold-deep); margin-top:6px}
 
@@ -66,17 +69,15 @@
   .phead{display:flex; justify-content:space-between; align-items:baseline; gap:16px; margin-bottom:6px; flex-wrap:wrap}
   .phead h2{font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:23px; letter-spacing:-0.01em}
   .phead .tag{font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase}
-  .pdesc{color:var(--muted); font-size:14px; margin-bottom:20px; max-width:74ch}
+  .pdesc{color:var(--muted); font-size:14px; margin-bottom:20px; max-width:76ch}
   .pdesc b{color:var(--cream); font-weight:600}
   .pdesc .hl{color:var(--gold); font-weight:600}
 
   .chartbox{position:relative; width:100%}
-  .h-hero{height:380px}
-  .h-mid{height:330px}
-  .h-don{height:300px}
-
+  .h-hero{height:380px}.h-core{height:400px}.h-mid{height:330px}.h-don{height:300px}.h-sm{height:230px}
   .grid2{display:grid; grid-template-columns:1.15fr 1fr; gap:24px}
   .grid2b{display:grid; grid-template-columns:1fr 1fr; gap:24px}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:22px}
 
   .legend{display:flex; flex-wrap:wrap; gap:14px 20px; margin-top:18px}
   .lg{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--cream)}
@@ -86,15 +87,21 @@
   .insight{background:var(--panel2); border:1px solid var(--line); border-left:3px solid var(--gold); border-radius:10px; padding:16px 18px; margin-top:20px; font-size:14px; color:var(--cream)}
   .insight b{color:var(--gold)}
 
-  .footnote{font-size:12px; color:var(--muted); line-height:1.7; margin-top:8px}
-  .footnote code{font-family:'Space Mono',monospace; color:var(--gold-deep)}
+  .chapter{display:flex; align-items:center; gap:14px; margin:50px 0 26px}
+  .chapter .eyebrow{font-size:13px}
+  .chapter h2{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(26px,4vw,40px); letter-spacing:-0.02em}
+  .chapter .rule{flex:1; height:1px; background:var(--line2)}
+
+  .badge{display:inline-block; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--bg); background:var(--summer); border-radius:99px; padding:3px 10px; margin-left:8px; vertical-align:middle}
+  .minihead{font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; margin-bottom:1px}
+  .minisub{font-family:'Space Mono',monospace; font-size:10.5px; color:var(--muted); margin-bottom:10px}
+
+  .footnote{font-size:12px; color:var(--muted); line-height:1.8; margin-top:8px}
+  .footnote b{color:var(--cream)} .footnote code{font-family:'Space Mono',monospace; color:var(--gold-deep)}
   footer{border-top:1px solid var(--line); margin-top:50px; padding-top:24px}
 
-  @media(max-width:860px){
-    .kpis{grid-template-columns:repeat(2,1fr)}
-    .grid2,.grid2b{grid-template-columns:1fr}
-    .daterange{text-align:left}
-  }
+  @media(max-width:980px){.grid3{grid-template-columns:1fr}}
+  @media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2,.grid2b{grid-template-columns:1fr}.daterange{text-align:left}}
   @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 </style>
 </head>
@@ -105,21 +112,19 @@
     <div>
       <div class="eyebrow">UCF Global · Wednesday Social</div>
       <h1>Popcorn <span class="amp">&amp;</span> Games</h1>
-      <p class="sub">How the weekly event grew, who showed up, and how many were coming back for more.</p>
+      <p class="sub">How the weekly event grew across <b>three semesters</b>, who showed up — and what attendance has to do with <b>GPA</b>.</p>
     </div>
-    <div class="daterange"><small>Reporting period</small><span id="dr"></span></div>
+    <div class="daterange"><img class="logo" src="data:image/png;base64,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" alt="UCF Global"><small>Reporting period</small><span id="dr"></span></div>
   </header>
 
   <div class="kpis" id="kpis"></div>
 
   <section>
     <div class="panel">
-      <div class="phead">
-        <h2>The growth story</h2>
-        <span class="tag">Attendance per event · weekly</span>
-      </div>
-      <p class="pdesc">Each bar is one Wednesday. The event opened with <b>9</b> attendees and built to a peak of <span class="hl">69</span>. The gold line traces the running trend; the shaded band marks the move from the Fall pilot into a much larger Spring run.</p>
+      <div class="phead"><h2>The growth story</h2><span class="tag">Attendance per event · weekly</span></div>
+      <p class="pdesc">Each bar is one Wednesday, now spanning Fall, Spring and the ongoing Summer<span class="badge">live</span>. The gold line traces the trend; the <span class="hl">teal line</span> isolates check-ins from the GAA cohort the GPA chapter below follows.</p>
       <div class="chartbox h-hero"><canvas id="growth"></canvas></div>
+      <div class="legend" id="growthLegend"></div>
       <div class="insight" id="growth-insight"></div>
     </div>
   </section>
@@ -148,7 +153,7 @@
     </div>
     <div class="panel">
       <div class="phead"><h2>Where new faces come from</h2><span class="tag">First-timers by program</span></div>
-      <p class="pdesc">Within each program, the split of returning attendees vs. people attending their first-ever UCF Global event. Useful for spotting which groups the event is best at <span class="hl">reaching for the first time</span>.</p>
+      <p class="pdesc">Within each program, returning attendees vs. people attending their first-ever UCF Global event — useful for spotting which groups the event is best at <span class="hl">reaching for the first time</span>.</p>
       <div class="chartbox h-mid"><canvas id="prevProg"></canvas></div>
       <div class="legend" id="prevProgLegend"></div>
     </div>
@@ -156,201 +161,351 @@
 
   <section>
     <div class="panel">
-      <div class="phead"><h2>Semester at a glance</h2><span class="tag">Fall 2025 vs. Spring 2026</span></div>
-      <p class="pdesc">Program composition side by side. Spring didn't just draw bigger crowds — it broadened the mix.</p>
+      <div class="phead"><h2>Semester at a glance</h2><span class="tag">Fall 2025 · Spring 2026 · Summer 2026</span></div>
+      <p class="pdesc">Program composition side by side. Spring didn't just draw bigger crowds — it broadened the mix. Summer is a partial read<span class="badge">3 events so far</span></p>
       <div class="chartbox h-mid"><canvas id="semBar"></canvas></div>
       <div class="legend" id="semLegend"></div>
       <div class="insight" id="sem-insight"></div>
     </div>
   </section>
 
-  <footer>
-    <p class="footnote" id="notes"></p>
-  </footer>
+  <div class="chapter">
+    <div>
+      <div class="eyebrow">Chapter two · Engagement × Academics</div>
+      <h2>The GPA connection</h2>
+    </div>
+    <div class="rule"></div>
+  </div>
+  <p class="pdesc" style="margin-top:-10px; margin-bottom:26px">Every check-in was matched against the <b style="color:var(--cream)">GAA academic tracking roster</b> (UCF ID first, email second). The <span class="hl">124 students</span> in both datasets — the intersection cohort — let us ask: do the regulars do better in class?</p>
 
+  <div class="kpis" id="kpis2"></div>
+
+  <section>
+    <div class="panel">
+      <div class="phead"><h2>Attendance vs. academic performance</h2><span class="tag">Each dot = one student-semester</span></div>
+      <p class="pdesc">Each point is one student in one semester: events attended (x) against semester GPA (y). The dashed gold line is the trend across completed semesters — <b>r = <span id="rval"></span></b>, a modest but consistently positive association. Hover any point for the student.</p>
+      <div class="chartbox h-core"><canvas id="scatter"></canvas></div>
+      <div class="legend" id="scatterLegend"></div>
+      <div class="insight"><b>Read this carefully:</b> correlation, not causation — students who choose to show up weekly may simply be the more engaged students. But the association holds within every semester independently (Fall r≈0.30, Spring r≈0.23, Summer-so-far r≈0.15), which makes it worth watching.</div>
+    </div>
+  </section>
+
+  <section class="grid2b">
+    <div class="panel">
+      <div class="phead"><h2>The loyalty dividend</h2><span class="tag">Avg GPA by attendance tier</span></div>
+      <p class="pdesc">Grouping the cohort by how often they came (completed semesters): students who attended <b>3+ events</b> average roughly <span class="hl">+0.4 GPA</span> over one-or-two-timers.</p>
+      <div class="chartbox h-mid"><canvas id="tiers"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="phead"><h2>Regulars hold. One-timers slide.</h2><span class="tag">GPA drift · first tracked week → semester end</span></div>
+      <p class="pdesc">The sharpest pattern isn't the <b>level</b> of GPA — it's the <b>trajectory</b>. Average change in semester GPA from each student's first tracked week to their final mark:</p>
+      <div class="chartbox h-mid"><canvas id="drift"></canvas></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="panel">
+      <div class="phead"><h2>Weekly GPA of the cohort</h2><span class="tag">Mean ± interquartile band · by semester week</span></div>
+      <p class="pdesc">How the cohort's semester GPA evolved week by week; the shaded band covers the middle 50% of students. Spring's gap is <b>spring break</b> (no tracking). Summer shows only the weeks tracked so far.</p>
+      <div class="grid3">
+        <div><div class="minihead" style="color:var(--fall)">Fall 2025</div><div class="minisub" id="fallN"></div><div class="chartbox h-sm"><canvas id="bandFall"></canvas></div></div>
+        <div><div class="minihead" style="color:var(--spring)">Spring 2026</div><div class="minisub" id="springN"></div><div class="chartbox h-sm"><canvas id="bandSpring"></canvas></div></div>
+        <div><div class="minihead" style="color:var(--summer)">Summer 2026<span class="badge">in progress</span></div><div class="minisub" id="summerN"></div><div class="chartbox h-sm"><canvas id="bandSummer"></canvas></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid2b">
+    <div class="panel">
+      <div class="phead"><h2>The returners</h2><span class="tag">Multi-semester attendees</span></div>
+      <p class="pdesc"><b id="multiN"></b> students came back for a second semester of events. Their Spring 2026 GPA vs. students who only attended during one semester:</p>
+      <div class="chartbox h-mid"><canvas id="returners"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="phead"><h2>Cohort scorecard</h2><span class="tag">Per semester</span></div>
+      <p class="pdesc">Cohort size each semester (bars) against its average semester GPA (line, right axis).</p>
+      <div class="chartbox h-mid"><canvas id="scorecard"></canvas></div>
+      <div class="legend" id="scoreLegend"></div>
+    </div>
+  </section>
+
+  <div class="insight" id="bigInsight" style="margin-bottom:8px"></div>
+
+  <footer><p class="footnote" id="notes"></p></footer>
 </div>
 
 <script>
-const DATA = {"summary":{"total_attendance":1161,"num_events":28,"fall_events":10,"spring_events":18,"fall_total":281,"spring_total":880,"avg_per_event":41.5,"fall_avg":28.1,"spring_avg":48.9,"min_event":9,"max_event":69,"first_event_total":9,"peak_total":69,"date_range":["Sep 03, 2025","Jun 03, 2026"]},"per_event":[{"date":"2025-09-03","label":"Sep 03","semester":"Fall 2025","total":9,"cumulative":9,"Global Achievement Academy":0,"Undergraduate":0,"Intensive English":0,"Master":0,"PhD":0,"Not specified":9,"returning":0,"new":0,"prev_noresp":9},{"date":"2025-09-10","label":"Sep 10","semester":"Fall 2025","total":14,"cumulative":23,"Global Achievement Academy":3,"Undergraduate":5,"Intensive English":4,"Master":2,"PhD":0,"Not specified":0,"returning":0,"new":0,"prev_noresp":14},{"date":"2025-09-17","label":"Sep 17","semester":"Fall 2025","total":16,"cumulative":39,"Global Achievement Academy":3,"Undergraduate":12,"Intensive English":0,"Master":1,"PhD":0,"Not specified":0,"returning":15,"new":1,"prev_noresp":0},{"date":"2025-09-24","label":"Sep 24","semester":"Fall 2025","total":18,"cumulative":57,"Global Achievement Academy":2,"Undergraduate":11,"Intensive English":4,"Master":0,"PhD":1,"Not specified":0,"returning":14,"new":4,"prev_noresp":0},{"date":"2025-10-01","label":"Oct 01","semester":"Fall 2025","total":24,"cumulative":81,"Global Achievement Academy":5,"Undergraduate":10,"Intensive English":4,"Master":5,"PhD":0,"Not specified":0,"returning":21,"new":3,"prev_noresp":0},{"date":"2025-10-15","label":"Oct 15","semester":"Fall 2025","total":22,"cumulative":103,"Global Achievement Academy":6,"Undergraduate":10,"Intensive English":2,"Master":4,"PhD":0,"Not specified":0,"returning":19,"new":3,"prev_noresp":0},{"date":"2025-10-22","label":"Oct 22","semester":"Fall 2025","total":34,"cumulative":137,"Global Achievement Academy":10,"Undergraduate":14,"Intensive English":6,"Master":3,"PhD":1,"Not specified":0,"returning":30,"new":4,"prev_noresp":0},{"date":"2025-10-29","label":"Oct 29","semester":"Fall 2025","total":42,"cumulative":179,"Global Achievement Academy":14,"Undergraduate":17,"Intensive English":8,"Master":2,"PhD":1,"Not specified":0,"returning":33,"new":9,"prev_noresp":0},{"date":"2025-11-05","label":"Nov 05","semester":"Fall 2025","total":46,"cumulative":225,"Global Achievement Academy":11,"Undergraduate":22,"Intensive English":7,"Master":5,"PhD":1,"Not specified":0,"returning":43,"new":3,"prev_noresp":0},{"date":"2025-11-12","label":"Nov 12","semester":"Fall 2025","total":56,"cumulative":281,"Global Achievement Academy":20,"Undergraduate":21,"Intensive English":10,"Master":4,"PhD":0,"Not specified":1,"returning":52,"new":4,"prev_noresp":0},{"date":"2026-01-21","label":"Jan 21","semester":"Spring 2026","total":47,"cumulative":328,"Global Achievement Academy":28,"Undergraduate":12,"Intensive English":2,"Master":5,"PhD":0,"Not specified":0,"returning":41,"new":6,"prev_noresp":0},{"date":"2026-01-28","label":"Jan 28","semester":"Spring 2026","total":55,"cumulative":383,"Global Achievement Academy":28,"Undergraduate":10,"Intensive English":13,"Master":4,"PhD":0,"Not specified":0,"returning":47,"new":8,"prev_noresp":0},{"date":"2026-02-04","label":"Feb 04","semester":"Spring 2026","total":46,"cumulative":429,"Global Achievement Academy":20,"Undergraduate":10,"Intensive English":12,"Master":4,"PhD":0,"Not specified":0,"returning":43,"new":3,"prev_noresp":0},{"date":"2026-02-11","label":"Feb 11","semester":"Spring 2026","total":50,"cumulative":479,"Global Achievement Academy":28,"Undergraduate":11,"Intensive English":7,"Master":4,"PhD":0,"Not specified":0,"returning":46,"new":4,"prev_noresp":0},{"date":"2026-02-18","label":"Feb 18","semester":"Spring 2026","total":53,"cumulative":532,"Global Achievement Academy":34,"Undergraduate":9,"Intensive English":7,"Master":3,"PhD":0,"Not specified":0,"returning":51,"new":2,"prev_noresp":0},{"date":"2026-02-25","label":"Feb 25","semester":"Spring 2026","total":59,"cumulative":591,"Global Achievement Academy":27,"Undergraduate":20,"Intensive English":9,"Master":3,"PhD":0,"Not specified":0,"returning":56,"new":3,"prev_noresp":0},{"date":"2026-03-04","label":"Mar 04","semester":"Spring 2026","total":43,"cumulative":634,"Global Achievement Academy":28,"Undergraduate":10,"Intensive English":2,"Master":3,"PhD":0,"Not specified":0,"returning":42,"new":1,"prev_noresp":0},{"date":"2026-03-11","label":"Mar 11","semester":"Spring 2026","total":53,"cumulative":687,"Global Achievement Academy":28,"Undergraduate":15,"Intensive English":7,"Master":3,"PhD":0,"Not specified":0,"returning":50,"new":3,"prev_noresp":0},{"date":"2026-03-18","label":"Mar 18","semester":"Spring 2026","total":14,"cumulative":701,"Global Achievement Academy":10,"Undergraduate":2,"Intensive English":1,"Master":1,"PhD":0,"Not specified":0,"returning":14,"new":0,"prev_noresp":0},{"date":"2026-03-25","label":"Mar 25","semester":"Spring 2026","total":52,"cumulative":753,"Global Achievement Academy":31,"Undergraduate":13,"Intensive English":5,"Master":3,"PhD":0,"Not specified":0,"returning":47,"new":5,"prev_noresp":0},{"date":"2026-04-01","label":"Apr 01","semester":"Spring 2026","total":64,"cumulative":817,"Global Achievement Academy":32,"Undergraduate":22,"Intensive English":7,"Master":3,"PhD":0,"Not specified":0,"returning":57,"new":7,"prev_noresp":0},{"date":"2026-04-08","label":"Apr 08","semester":"Spring 2026","total":65,"cumulative":882,"Global Achievement Academy":33,"Undergraduate":21,"Intensive English":6,"Master":4,"PhD":1,"Not specified":0,"returning":64,"new":1,"prev_noresp":0},{"date":"2026-04-15","label":"Apr 15","semester":"Spring 2026","total":69,"cumulative":951,"Global Achievement Academy":37,"Undergraduate":20,"Intensive English":10,"Master":2,"PhD":0,"Not specified":0,"returning":65,"new":4,"prev_noresp":0},{"date":"2026-04-22","label":"Apr 22","semester":"Spring 2026","total":68,"cumulative":1019,"Global Achievement Academy":34,"Undergraduate":22,"Intensive English":9,"Master":3,"PhD":0,"Not specified":0,"returning":63,"new":5,"prev_noresp":0},{"date":"2026-04-29","label":"Apr 29","semester":"Spring 2026","total":38,"cumulative":1057,"Global Achievement Academy":20,"Undergraduate":12,"Intensive English":5,"Master":1,"PhD":0,"Not specified":0,"returning":36,"new":2,"prev_noresp":0},{"date":"2026-05-20","label":"May 20","semester":"Spring 2026","total":34,"cumulative":1091,"Global Achievement Academy":19,"Undergraduate":7,"Intensive English":7,"Master":1,"PhD":0,"Not specified":0,"returning":31,"new":3,"prev_noresp":0},{"date":"2026-05-27","label":"May 27","semester":"Spring 2026","total":29,"cumulative":1120,"Global Achievement Academy":14,"Undergraduate":9,"Intensive English":6,"Master":0,"PhD":0,"Not specified":0,"returning":28,"new":1,"prev_noresp":0},{"date":"2026-06-03","label":"Jun 03","semester":"Spring 2026","total":41,"cumulative":1161,"Global Achievement Academy":23,"Undergraduate":12,"Intensive English":4,"Master":2,"PhD":0,"Not specified":0,"returning":41,"new":0,"prev_noresp":0}],"program_totals":{"Global Achievement Academy":548,"Undergraduate":359,"Intensive English":164,"Master":75,"PhD":5,"Not specified":10},"program_by_sem":{"Fall 2025":{"Global Achievement Academy":74,"Undergraduate":122,"Intensive English":45,"Master":26,"PhD":4,"Not specified":10},"Spring 2026":{"Global Achievement Academy":474,"Undergraduate":237,"Intensive English":119,"Master":49,"PhD":1,"Not specified":0}},"prev_totals":{"Returning (attended UCF Global event before)":1049,"First-timer (new to UCF Global events)":89,"No response":23},"prev_by_sem":{"Fall 2025":{"Returning":227,"First-timer":31,"No response":23},"Spring 2026":{"Returning":822,"First-timer":58,"No response":0}},"prev_by_prog":{"Global Achievement Academy":{"Returning":518,"First-timer":27,"No response":3,"total":548},"Undergraduate":{"Returning":321,"First-timer":33,"No response":5,"total":359},"Intensive English":{"Returning":133,"First-timer":27,"No response":4,"total":164},"Master":{"Returning":72,"First-timer":1,"No response":2,"total":75},"PhD":{"Returning":4,"First-timer":1,"No response":0,"total":5},"Not specified":{"Returning":1,"First-timer":0,"No response":9,"total":10}},"prog_categories":["Global Achievement Academy","Undergraduate","Intensive English","Master","PhD","Not specified"]}
-;
-const C = {
-  bg:'#14110D', cream:'#F4ECD8', muted:'#9C907A', gold:'#FFC93C', goldDeep:'#F5A623',
+const D = {"summary": {"total_attendance": 1161, "num_events": 28, "sem_events": {"Fall 2025": 10, "Spring 2026": 15, "Summer 2026": 3}, "sem_tot": {"Fall 2025": 281, "Spring 2026": 776, "Summer 2026": 104}, "sem_avg": {"Fall 2025": 28.1, "Spring 2026": 51.7, "Summer 2026": 34.7}, "avg_per_event": 41.5, "min_event": 9, "max_event": 69, "first_event_total": 9, "peak_total": 69, "peak_label": "Apr 15", "date_range": ["Sep 03, 2025", "Jun 03, 2026"]}, "per_event": [{"date": "2025-09-03", "label": "Sep 03", "semester": "Fall 2025", "total": 9, "cumulative": 9, "cohort": 9, "Global Achievement Academy": 0, "Undergraduate": 0, "Intensive English": 0, "Master": 0, "PhD": 0, "Not specified": 9, "returning": 0, "new": 0}, {"date": "2025-09-10", "label": "Sep 10", "semester": "Fall 2025", "total": 14, "cumulative": 23, "cohort": 5, "Global Achievement Academy": 3, "Undergraduate": 5, "Intensive English": 4, "Master": 2, "PhD": 0, "Not specified": 0, "returning": 0, "new": 0}, {"date": "2025-09-17", "label": "Sep 17", "semester": "Fall 2025", "total": 16, "cumulative": 39, "cohort": 4, "Global Achievement Academy": 3, "Undergraduate": 12, "Intensive English": 0, "Master": 1, "PhD": 0, "Not specified": 0, "returning": 15, "new": 1}, {"date": "2025-09-24", "label": "Sep 24", "semester": "Fall 2025", "total": 18, "cumulative": 57, "cohort": 4, "Global Achievement Academy": 2, "Undergraduate": 11, "Intensive English": 4, "Master": 0, "PhD": 1, "Not specified": 0, "returning": 14, "new": 4}, {"date": "2025-10-01", "label": "Oct 01", "semester": "Fall 2025", "total": 24, "cumulative": 81, "cohort": 6, "Global Achievement Academy": 5, "Undergraduate": 10, "Intensive English": 4, "Master": 5, "PhD": 0, "Not specified": 0, "returning": 21, "new": 3}, {"date": "2025-10-15", "label": "Oct 15", "semester": "Fall 2025", "total": 22, "cumulative": 103, "cohort": 8, "Global Achievement Academy": 6, "Undergraduate": 10, "Intensive English": 2, "Master": 4, "PhD": 0, "Not specified": 0, "returning": 19, "new": 3}, {"date": "2025-10-22", "label": "Oct 22", "semester": "Fall 2025", "total": 34, "cumulative": 137, "cohort": 12, "Global Achievement Academy": 10, "Undergraduate": 14, "Intensive English": 6, "Master": 3, "PhD": 1, "Not specified": 0, "returning": 30, "new": 4}, {"date": "2025-10-29", "label": "Oct 29", "semester": "Fall 2025", "total": 42, "cumulative": 179, "cohort": 20, "Global Achievement Academy": 14, "Undergraduate": 17, "Intensive English": 8, "Master": 2, "PhD": 1, "Not specified": 0, "returning": 33, "new": 9}, {"date": "2025-11-05", "label": "Nov 05", "semester": "Fall 2025", "total": 46, "cumulative": 225, "cohort": 16, "Global Achievement Academy": 11, "Undergraduate": 22, "Intensive English": 7, "Master": 5, "PhD": 1, "Not specified": 0, "returning": 43, "new": 3}, {"date": "2025-11-12", "label": "Nov 12", "semester": "Fall 2025", "total": 56, "cumulative": 281, "cohort": 26, "Global Achievement Academy": 20, "Undergraduate": 21, "Intensive English": 10, "Master": 4, "PhD": 0, "Not specified": 1, "returning": 52, "new": 4}, {"date": "2026-01-21", "label": "Jan 21", "semester": "Spring 2026", "total": 47, "cumulative": 328, "cohort": 28, "Global Achievement Academy": 28, "Undergraduate": 12, "Intensive English": 2, "Master": 5, "PhD": 0, "Not specified": 0, "returning": 41, "new": 6}, {"date": "2026-01-28", "label": "Jan 28", "semester": "Spring 2026", "total": 55, "cumulative": 383, "cohort": 28, "Global Achievement Academy": 28, "Undergraduate": 10, "Intensive English": 13, "Master": 4, "PhD": 0, "Not specified": 0, "returning": 47, "new": 8}, {"date": "2026-02-04", "label": "Feb 04", "semester": "Spring 2026", "total": 46, "cumulative": 429, "cohort": 20, "Global Achievement Academy": 20, "Undergraduate": 10, "Intensive English": 12, "Master": 4, "PhD": 0, "Not specified": 0, "returning": 43, "new": 3}, {"date": "2026-02-11", "label": "Feb 11", "semester": "Spring 2026", "total": 50, "cumulative": 479, "cohort": 26, "Global Achievement Academy": 28, "Undergraduate": 11, "Intensive English": 7, "Master": 4, "PhD": 0, "Not specified": 0, "returning": 46, "new": 4}, {"date": "2026-02-18", "label": "Feb 18", "semester": "Spring 2026", "total": 53, "cumulative": 532, "cohort": 35, "Global Achievement Academy": 34, "Undergraduate": 9, "Intensive English": 7, "Master": 3, "PhD": 0, "Not specified": 0, "returning": 51, "new": 2}, {"date": "2026-02-25", "label": "Feb 25", "semester": "Spring 2026", "total": 59, "cumulative": 591, "cohort": 29, "Global Achievement Academy": 27, "Undergraduate": 20, "Intensive English": 9, "Master": 3, "PhD": 0, "Not specified": 0, "returning": 56, "new": 3}, {"date": "2026-03-04", "label": "Mar 04", "semester": "Spring 2026", "total": 43, "cumulative": 634, "cohort": 27, "Global Achievement Academy": 28, "Undergraduate": 10, "Intensive English": 2, "Master": 3, "PhD": 0, "Not specified": 0, "returning": 42, "new": 1}, {"date": "2026-03-11", "label": "Mar 11", "semester": "Spring 2026", "total": 53, "cumulative": 687, "cohort": 29, "Global Achievement Academy": 28, "Undergraduate": 15, "Intensive English": 7, "Master": 3, "PhD": 0, "Not specified": 0, "returning": 50, "new": 3}, {"date": "2026-03-18", "label": "Mar 18", "semester": "Spring 2026", "total": 14, "cumulative": 701, "cohort": 10, "Global Achievement Academy": 10, "Undergraduate": 2, "Intensive English": 1, "Master": 1, "PhD": 0, "Not specified": 0, "returning": 14, "new": 0}, {"date": "2026-03-25", "label": "Mar 25", "semester": "Spring 2026", "total": 52, "cumulative": 753, "cohort": 32, "Global Achievement Academy": 31, "Undergraduate": 13, "Intensive English": 5, "Master": 3, "PhD": 0, "Not specified": 0, "returning": 47, "new": 5}, {"date": "2026-04-01", "label": "Apr 01", "semester": "Spring 2026", "total": 64, "cumulative": 817, "cohort": 32, "Global Achievement Academy": 32, "Undergraduate": 22, "Intensive English": 7, "Master": 3, "PhD": 0, "Not specified": 0, "returning": 57, "new": 7}, {"date": "2026-04-08", "label": "Apr 08", "semester": "Spring 2026", "total": 65, "cumulative": 882, "cohort": 35, "Global Achievement Academy": 33, "Undergraduate": 21, "Intensive English": 6, "Master": 4, "PhD": 1, "Not specified": 0, "returning": 64, "new": 1}, {"date": "2026-04-15", "label": "Apr 15", "semester": "Spring 2026", "total": 69, "cumulative": 951, "cohort": 39, "Global Achievement Academy": 37, "Undergraduate": 20, "Intensive English": 10, "Master": 2, "PhD": 0, "Not specified": 0, "returning": 65, "new": 4}, {"date": "2026-04-22", "label": "Apr 22", "semester": "Spring 2026", "total": 68, "cumulative": 1019, "cohort": 37, "Global Achievement Academy": 34, "Undergraduate": 22, "Intensive English": 9, "Master": 3, "PhD": 0, "Not specified": 0, "returning": 63, "new": 5}, {"date": "2026-04-29", "label": "Apr 29", "semester": "Spring 2026", "total": 38, "cumulative": 1057, "cohort": 19, "Global Achievement Academy": 20, "Undergraduate": 12, "Intensive English": 5, "Master": 1, "PhD": 0, "Not specified": 0, "returning": 36, "new": 2}, {"date": "2026-05-20", "label": "May 20", "semester": "Summer 2026", "total": 34, "cumulative": 1091, "cohort": 21, "Global Achievement Academy": 19, "Undergraduate": 7, "Intensive English": 7, "Master": 1, "PhD": 0, "Not specified": 0, "returning": 31, "new": 3}, {"date": "2026-05-27", "label": "May 27", "semester": "Summer 2026", "total": 29, "cumulative": 1120, "cohort": 17, "Global Achievement Academy": 14, "Undergraduate": 9, "Intensive English": 6, "Master": 0, "PhD": 0, "Not specified": 0, "returning": 28, "new": 1}, {"date": "2026-06-03", "label": "Jun 03", "semester": "Summer 2026", "total": 41, "cumulative": 1161, "cohort": 27, "Global Achievement Academy": 23, "Undergraduate": 12, "Intensive English": 4, "Master": 2, "PhD": 0, "Not specified": 0, "returning": 41, "new": 0}], "program_totals": {"Global Achievement Academy": 548, "Undergraduate": 359, "Intensive English": 164, "Master": 75, "PhD": 5, "Not specified": 10}, "program_by_sem": {"Fall 2025": {"Global Achievement Academy": 74, "Undergraduate": 122, "Intensive English": 45, "Master": 26, "PhD": 4, "Not specified": 10}, "Spring 2026": {"Global Achievement Academy": 418, "Undergraduate": 209, "Intensive English": 102, "Master": 46, "PhD": 1, "Not specified": 0}, "Summer 2026": {"Global Achievement Academy": 56, "Undergraduate": 28, "Intensive English": 17, "Master": 3, "PhD": 0, "Not specified": 0}}, "prev_totals": {"Returning": 1049, "First-timer": 89, "No response": 23}, "prev_by_prog": {"Global Achievement Academy": {"Returning": 518, "First-timer": 27}, "Undergraduate": {"Returning": 321, "First-timer": 33}, "Intensive English": {"Returning": 133, "First-timer": 27}, "Master": {"Returning": 72, "First-timer": 1}, "PhD": {"Returning": 4, "First-timer": 1}}, "prog_categories": ["Global Achievement Academy", "Undergraduate", "Intensive English", "Master", "PhD", "Not specified"], "gpa": {"kpi": {"cohort_size": 124, "matched_checkins": 601, "total_checkins": 1161, "match_rate": 51.8, "avg_events_per_student": 4.6, "pearson_r": 0.22, "n_corr": 138, "avg_gpa_6plus": 3.55, "avg_gpa_12": 3.18, "multi_sem_students": 44, "three_sem_students": 0, "multi_gpa": 3.41, "single_gpa": 3.33, "summer_weeks_tracked": 3, "events_total": 28}, "tiers": {"Fall 2025": {"1\u20132 events": {"n": 36, "avg_gpa": 3.2, "avg_delta": 0.035}, "3\u20135 events": {"n": 9, "avg_gpa": 3.82, "avg_delta": -0.099}, "6+ events": {"n": 2, "avg_gpa": 3.86, "avg_delta": 0.356}}, "Spring 2026": {"1\u20132 events": {"n": 41, "avg_gpa": 3.16, "avg_delta": -0.487}, "3\u20135 events": {"n": 18, "avg_gpa": 3.54, "avg_delta": 0.024}, "6+ events": {"n": 32, "avg_gpa": 3.54, "avg_delta": -0.055}}, "Summer 2026": {"1\u20132 events": {"n": 20, "avg_gpa": 3.65, "avg_delta": -0.141}, "3\u20135 events": {"n": 10, "avg_gpa": 3.7, "avg_delta": 0.084}, "6+ events": {"n": 0, "avg_gpa": null, "avg_delta": null}}, "Combined": {"1\u20132 events": {"n": 77, "avg_gpa": 3.18, "avg_delta": -0.243}, "3\u20135 events": {"n": 27, "avg_gpa": 3.63, "avg_delta": -0.017}, "6+ events": {"n": 34, "avg_gpa": 3.55, "avg_delta": -0.03}}}, "bands": {"Fall 2025": [{"week": 2, "mean": 3.414, "q1": 3.0, "q3": 4.0, "n": 42}, {"week": 3, "mean": 3.569, "q1": 3.344, "q3": 4.0, "n": 40}, {"week": 4, "mean": 3.389, "q1": 3.259, "q3": 4.0, "n": 39}, {"week": 5, "mean": 3.107, "q1": 2.75, "q3": 4.0, "n": 40}, {"week": 6, "mean": 3.202, "q1": 2.895, "q3": 3.997, "n": 44}, {"week": 7, "mean": 3.148, "q1": 2.846, "q3": 3.817, "n": 42}, {"week": 8, "mean": 3.207, "q1": 3.0, "q3": 3.85, "n": 40}, {"week": 9, "mean": 3.153, "q1": 2.75, "q3": 4.0, "n": 40}, {"week": 10, "mean": 3.215, "q1": 2.942, "q3": 3.93, "n": 42}, {"week": 11, "mean": 3.218, "q1": 2.792, "q3": 3.913, "n": 42}, {"week": 12, "mean": 3.162, "q1": 2.53, "q3": 3.901, "n": 42}, {"week": 13, "mean": 3.298, "q1": 3.0, "q3": 3.965, "n": 39}, {"week": 14, "mean": 3.38, "q1": 3.25, "q3": 3.985, "n": 38}, {"week": 15, "mean": 3.54, "q1": 3.5, "q3": 4.0, "n": 32}], "Spring 2026": [{"week": 2, "mean": 3.631, "q1": 3.472, "q3": 4.0, "n": 82}, {"week": 3, "mean": 3.706, "q1": 3.606, "q3": 4.0, "n": 82}, {"week": 4, "mean": 3.518, "q1": 3.241, "q3": 4.0, "n": 84}, {"week": 5, "mean": 3.456, "q1": 3.2, "q3": 4.0, "n": 81}, {"week": 6, "mean": 3.421, "q1": 3.128, "q3": 4.0, "n": 82}, {"week": 7, "mean": 3.242, "q1": 2.875, "q3": 3.963, "n": 80}, {"week": 8, "mean": 3.343, "q1": 3.05, "q3": 3.95, "n": 77}, {"week": 9, "mean": 3.331, "q1": 3.0, "q3": 3.938, "n": 82}, {"week": 10, "mean": null, "q1": null, "q3": null, "n": 0}, {"week": 11, "mean": 3.296, "q1": 3.0, "q3": 3.938, "n": 76}, {"week": 12, "mean": 3.334, "q1": 3.186, "q3": 3.885, "n": 79}, {"week": 13, "mean": 3.406, "q1": 3.25, "q3": 3.938, "n": 77}, {"week": 14, "mean": 3.304, "q1": 3.05, "q3": 3.813, "n": 83}, {"week": 15, "mean": 3.378, "q1": 3.065, "q3": 3.791, "n": 79}], "Summer 2026": [{"week": 2, "mean": 3.787, "q1": 3.802, "q3": 4.0, "n": 28}, {"week": 3, "mean": 3.619, "q1": 3.455, "q3": 4.0, "n": 25}, {"week": 4, "mean": 3.715, "q1": 3.569, "q3": 4.0, "n": 27}, {"week": 5, "mean": null, "q1": null, "q3": null, "n": 0}, {"week": 6, "mean": null, "q1": null, "q3": null, "n": 0}, {"week": 7, "mean": null, "q1": null, "q3": null, "n": 0}, {"week": 8, "mean": null, "q1": null, "q3": null, "n": 0}, {"week": 9, "mean": null, "q1": null, "q3": null, "n": 0}, {"week": 10, "mean": null, "q1": null, "q3": null, "n": 0}, {"week": 11, "mean": null, "q1": null, "q3": null, "n": 0}, {"week": 12, "mean": null, "q1": null, "q3": null, "n": 0}]}, "scatter": [{"x": 1, "y": 2.68, "sem": "Fall 2025", "name": 0, "cum": 3.214}, {"x": 1, "y": 4.0, "sem": "Fall 2025", "name": 1, "cum": 4.0}, {"x": 1, "y": 1.563, "sem": "Spring 2026", "name": 2, "cum": 2.286}, {"x": 1, "y": 2.0, "sem": "Summer 2026", "name": 3, "cum": 2.23}, {"x": 2, "y": 2.825, "sem": "Fall 2025", "name": 4, "cum": 3.172}, {"x": 1, "y": 3.188, "sem": "Fall 2025", "name": 5, "cum": 2.709}, {"x": 2, "y": 2.167, "sem": "Fall 2025", "name": 6, "cum": 2.167}, {"x": 6, "y": 2.65, "sem": "Spring 2026", "name": 7, "cum": 2.469}, {"x": 1, "y": 4.0, "sem": "Fall 2025", "name": 8, "cum": 4.0}, {"x": 1, "y": 3.188, "sem": "Fall 2025", "name": 9, "cum": 3.188}, {"x": 1, "y": 2.25, "sem": "Fall 2025", "name": 10, "cum": 2.25}, {"x": 1, "y": 3.875, "sem": "Spring 2026", "name": 11, "cum": 2.9}, {"x": 8, "y": 3.438, "sem": "Spring 2026", "name": 12, "cum": 3.438}, {"x": 3, "y": 3.5, "sem": "Summer 2026", "name": 13, "cum": 3.459}, {"x": 1, "y": 3.33, "sem": "Fall 2025", "name": 14, "cum": 2.944}, {"x": 1, "y": 3.25, "sem": "Fall 2025", "name": 15, "cum": 3.625}, {"x": 13, "y": 3.5, "sem": "Spring 2026", "name": 16, "cum": 3.5}, {"x": 3, "y": 3.667, "sem": "Summer 2026", "name": 17, "cum": 3.6}, {"x": 1, "y": 2.75, "sem": "Fall 2025", "name": 18, "cum": 2.229}, {"x": 9, "y": 3.712, "sem": "Fall 2025", "name": 19, "cum": 3.856}, {"x": 2, "y": 3.75, "sem": "Fall 2025", "name": 20, "cum": 3.75}, {"x": 8, "y": 3.0, "sem": "Spring 2026", "name": 21, "cum": 3.33}, {"x": 9, "y": 3.688, "sem": "Spring 2026", "name": 22, "cum": 3.688}, {"x": 1, "y": 4.0, "sem": "Fall 2025", "name": 23, "cum": 4.0}, {"x": 11, "y": 4.0, "sem": "Spring 2026", "name": 24, "cum": 4.0}, {"x": 8, "y": 3.25, "sem": "Spring 2026", "name": 25, "cum": 3.25}, {"x": 3, "y": 4.0, "sem": "Summer 2026", "name": 26, "cum": 3.76}, {"x": 1, "y": 3.75, "sem": "Spring 2026", "name": 27, "cum": 3.84}, {"x": 1, "y": 2.188, "sem": "Fall 2025", "name": 28, "cum": 2.813}, {"x": 1, "y": 2.089, "sem": "Spring 2026", "name": 29, "cum": 2.885}, {"x": 1, "y": 3.83, "sem": "Fall 2025", "name": 30, "cum": 3.83}, {"x": 1, "y": 3.62, "sem": "Spring 2026", "name": 31, "cum": 3.75}, {"x": 5, "y": 4.0, "sem": "Fall 2025", "name": 32, "cum": 4.0}, {"x": 14, "y": 4.0, "sem": "Spring 2026", "name": 33, "cum": 4.0}, {"x": 1, "y": 3.769, "sem": "Fall 2025", "name": 34, "cum": 3.769}, {"x": 6, "y": 3.714, "sem": "Spring 2026", "name": 35, "cum": 3.741}, {"x": 10, "y": 2.769, "sem": "Spring 2026", "name": 36, "cum": 2.769}, {"x": 2, "y": 3.25, "sem": "Fall 2025", "name": 37, "cum": 3.25}, {"x": 3, "y": 2.95, "sem": "Spring 2026", "name": 38, "cum": 3.1}, {"x": 2, "y": 3.938, "sem": "Fall 2025", "name": 39, "cum": 3.938}, {"x": 6, "y": 3.2, "sem": "Spring 2026", "name": 40, "cum": 3.528}, {"x": 1, "y": 3.75, "sem": "Fall 2025", "name": 41, "cum": 3.75}, {"x": 6, "y": 3.46, "sem": "Spring 2026", "name": 42, "cum": 3.57}, {"x": 1, "y": 3.94, "sem": "Spring 2026", "name": 43, "cum": 3.97}, {"x": 2, "y": 3.12, "sem": "Spring 2026", "name": 44, "cum": 3.4}, {"x": 2, "y": 3.16, "sem": "Spring 2026", "name": 45, "cum": 3.49}, {"x": 1, "y": 2.87, "sem": "Spring 2026", "name": 46, "cum": 3.4}, {"x": 3, "y": 3.5, "sem": "Fall 2025", "name": 47, "cum": 3.5}, {"x": 2, "y": 3.063, "sem": "Fall 2025", "name": 48, "cum": 3.063}, {"x": 11, "y": 2.635, "sem": "Spring 2026", "name": 49, "cum": 2.84}, {"x": 1, "y": 4.0, "sem": "Fall 2025", "name": 50, "cum": 4.0}, {"x": 1, "y": 3.68, "sem": "Spring 2026", "name": 51, "cum": 3.733}, {"x": 1, "y": 3.583, "sem": "Spring 2026", "name": 52, "cum": 3.583}, {"x": 2, "y": 4.0, "sem": "Fall 2025", "name": 53, "cum": 4.0}, {"x": 2, "y": 3.73, "sem": "Spring 2026", "name": 54, "cum": 3.85}, {"x": 1, "y": 3.925, "sem": "Fall 2025", "name": 55, "cum": 3.925}, {"x": 1, "y": 2.75, "sem": "Fall 2025", "name": 56, "cum": 2.75}, {"x": 2, "y": 3.063, "sem": "Fall 2025", "name": 57, "cum": 3.063}, {"x": 1, "y": 2.0, "sem": "Spring 2026", "name": 58, "cum": 2.53}, {"x": 1, "y": 3.188, "sem": "Fall 2025", "name": 59, "cum": 3.188}, {"x": 1, "y": 3.75, "sem": "Spring 2026", "name": 60, "cum": 3.4}, {"x": 4, "y": 2.231, "sem": "Spring 2026", "name": 61, "cum": 2.158}, {"x": 1, "y": 3.75, "sem": "Summer 2026", "name": 62, "cum": 2.67}, {"x": 5, "y": 4.0, "sem": "Fall 2025", "name": 63, "cum": 4.0}, {"x": 8, "y": 3.46, "sem": "Spring 2026", "name": 64, "cum": 3.74}, {"x": 7, "y": 4.0, "sem": "Spring 2026", "name": 65, "cum": 4.0}, {"x": 2, "y": 3.7, "sem": "Summer 2026", "name": 66, "cum": 3.864}, {"x": 1, "y": 3.75, "sem": "Fall 2025", "name": 67, "cum": 3.75}, {"x": 1, "y": 4.0, "sem": "Spring 2026", "name": 68, "cum": 3.024}, {"x": 1, "y": 3.538, "sem": "Summer 2026", "name": 69, "cum": 3.146}, {"x": 1, "y": 2.93, "sem": "Fall 2025", "name": 70, "cum": 3.469}, {"x": 3, "y": 3.75, "sem": "Fall 2025", "name": 71, "cum": 3.75}, {"x": 1, "y": 3.25, "sem": "Spring 2026", "name": 72, "cum": 3.43}, {"x": 2, "y": 2.938, "sem": "Fall 2025", "name": 73, "cum": 2.938}, {"x": 8, "y": 3.058, "sem": "Spring 2026", "name": 74, "cum": 3.51}, {"x": 4, "y": 4.0, "sem": "Spring 2026", "name": 75, "cum": 4.0}, {"x": 1, "y": 3.93, "sem": "Spring 2026", "name": 76, "cum": 3.97}, {"x": 7, "y": 4.0, "sem": "Spring 2026", "name": 77, "cum": 4.0}, {"x": 2, "y": 3.42, "sem": "Spring 2026", "name": 78, "cum": 3.69}, {"x": 5, "y": 4.0, "sem": "Spring 2026", "name": 79, "cum": 3.88}, {"x": 1, "y": 2.5, "sem": "Fall 2025", "name": 80, "cum": 3.01}, {"x": 3, "y": 4.0, "sem": "Spring 2026", "name": 81, "cum": 4.0}, {"x": 2, "y": 1.714, "sem": "Fall 2025", "name": 82, "cum": 2.684}, {"x": 2, "y": 1.92, "sem": "Spring 2026", "name": 83, "cum": 2.38}, {"x": 3, "y": 3.23, "sem": "Spring 2026", "name": 84, "cum": 3.54}, {"x": 8, "y": 3.71, "sem": "Spring 2026", "name": 85, "cum": 3.85}, {"x": 1, "y": 3.18, "sem": "Spring 2026", "name": 86, "cum": 3.12}, {"x": 1, "y": 4.0, "sem": "Fall 2025", "name": 87, "cum": 4.0}, {"x": 8, "y": 3.56, "sem": "Spring 2026", "name": 88, "cum": 3.78}, {"x": 11, "y": 3.25, "sem": "Spring 2026", "name": 89, "cum": 3.25}, {"x": 2, "y": 3.483, "sem": "Summer 2026", "name": 90, "cum": 3.417}, {"x": 3, "y": 3.353, "sem": "Spring 2026", "name": 91, "cum": 3.4}, {"x": 5, "y": 4.0, "sem": "Spring 2026", "name": 92, "cum": 4.0}, {"x": 3, "y": 3.769, "sem": "Fall 2025", "name": 93, "cum": 3.769}, {"x": 1, "y": 2.775, "sem": "Spring 2026", "name": 94, "cum": 3.337}, {"x": 3, "y": 3.563, "sem": "Fall 2025", "name": 95, "cum": 3.563}, {"x": 1, "y": 3.0, "sem": "Spring 2026", "name": 96, "cum": 3.34}, {"x": 2, "y": 3.62, "sem": "Spring 2026", "name": 97, "cum": 3.68}, {"x": 3, "y": 3.78, "sem": "Fall 2025", "name": 98, "cum": 3.78}, {"x": 2, "y": 3.82, "sem": "Spring 2026", "name": 99, "cum": 3.67}, {"x": 2, "y": 1.93, "sem": "Spring 2026", "name": 100, "cum": 1.71}, {"x": 4, "y": 4.0, "sem": "Spring 2026", "name": 101, "cum": 4.0}, {"x": 1, "y": 4.0, "sem": "Summer 2026", "name": 102, "cum": 4.0}, {"x": 6, "y": 4.0, "sem": "Fall 2025", "name": 103, "cum": 4.0}, {"x": 12, "y": 4.0, "sem": "Spring 2026", "name": 104, "cum": 4.0}, {"x": 2, "y": 3.667, "sem": "Spring 2026", "name": 105, "cum": 3.862}, {"x": 1, "y": 4.0, "sem": "Spring 2026", "name": 106, "cum": 3.86}, {"x": 1, "y": 2.188, "sem": "Spring 2026", "name": 107, "cum": 2.792}, {"x": 1, "y": 4.0, "sem": "Summer 2026", "name": 108, "cum": NaN}, {"x": 2, "y": 3.76, "sem": "Spring 2026", "name": 109, "cum": 3.49}, {"x": 1, "y": 3.33, "sem": "Fall 2025", "name": 110, "cum": 3.33}, {"x": 3, "y": 3.417, "sem": "Spring 2026", "name": 111, "cum": 3.375}, {"x": 4, "y": 4.0, "sem": "Fall 2025", "name": 112, "cum": 4.0}, {"x": 10, "y": 4.0, "sem": "Spring 2026", "name": 113, "cum": 4.0}, {"x": 1, "y": 3.6, "sem": "Summer 2026", "name": 114, "cum": 2.883}, {"x": 2, "y": 4.0, "sem": "Spring 2026", "name": 115, "cum": 4.0}, {"x": 3, "y": 3.214, "sem": "Spring 2026", "name": 116, "cum": 3.577}, {"x": 1, "y": 3.75, "sem": "Fall 2025", "name": 117, "cum": 3.75}, {"x": 15, "y": 3.143, "sem": "Spring 2026", "name": 118, "cum": 3.423}, {"x": 7, "y": 2.75, "sem": "Spring 2026", "name": 119, "cum": 2.96}, {"x": 3, "y": 2.5, "sem": "Summer 2026", "name": 120, "cum": 2.861}, {"x": 5, "y": 4.0, "sem": "Fall 2025", "name": 121, "cum": 4.0}, {"x": 14, "y": 4.0, "sem": "Spring 2026", "name": 122, "cum": 4.0}, {"x": 1, "y": 3.5, "sem": "Fall 2025", "name": 123, "cum": 3.5}, {"x": 11, "y": 3.75, "sem": "Spring 2026", "name": 124, "cum": 3.625}, {"x": 1, "y": 3.692, "sem": "Spring 2026", "name": 125, "cum": 3.84}, {"x": 2, "y": 0.0, "sem": "Spring 2026", "name": 126, "cum": 1.667}, {"x": 2, "y": 3.89, "sem": "Spring 2026", "name": 127, "cum": 3.39}, {"x": 1, "y": 3.18, "sem": "Spring 2026", "name": 128, "cum": 3.15}, {"x": 10, "y": 4.0, "sem": "Spring 2026", "name": 129, "cum": 4.0}, {"x": 3, "y": 3.7, "sem": "Summer 2026", "name": 130, "cum": 3.86}, {"x": 1, "y": 1.857, "sem": "Spring 2026", "name": 131, "cum": 2.644}, {"x": 3, "y": 2.07, "sem": "Spring 2026", "name": 132, "cum": 1.579}, {"x": 1, "y": 3.5, "sem": "Summer 2026", "name": 133, "cum": 3.36}, {"x": 1, "y": 0.688, "sem": "Fall 2025", "name": 134, "cum": 0.688}, {"x": 7, "y": 4.0, "sem": "Spring 2026", "name": 135, "cum": 4.0}, {"x": 1, "y": 4.0, "sem": "Summer 2026", "name": 136, "cum": 4.0}, {"x": 3, "y": 4.0, "sem": "Spring 2026", "name": 137, "cum": 4.0}, {"x": 5, "y": 4.0, "sem": "Spring 2026", "name": 138, "cum": 4.0}, {"x": 3, "y": 4.0, "sem": "Summer 2026", "name": 139, "cum": 4.0}, {"x": 7, "y": 3.635, "sem": "Spring 2026", "name": 140, "cum": 3.635}, {"x": 3, "y": 4.0, "sem": "Summer 2026", "name": 141, "cum": 3.7}, {"x": 1, "y": 3.0, "sem": "Spring 2026", "name": 142, "cum": 3.0}, {"x": 4, "y": 3.833, "sem": "Spring 2026", "name": 143, "cum": 3.42}, {"x": 3, "y": 4.0, "sem": "Summer 2026", "name": 144, "cum": 3.77}, {"x": 9, "y": 4.0, "sem": "Spring 2026", "name": 145, "cum": 4.0}, {"x": 3, "y": 3.67, "sem": "Summer 2026", "name": 146, "cum": 3.875}, {"x": 3, "y": 3.75, "sem": "Spring 2026", "name": 147, "cum": 3.75}, {"x": 2, "y": 4.0, "sem": "Summer 2026", "name": 148, "cum": 3.89}, {"x": 2, "y": 3.688, "sem": "Spring 2026", "name": 149, "cum": 3.688}, {"x": 2, "y": 4.0, "sem": "Summer 2026", "name": 150, "cum": 3.822}, {"x": 6, "y": 3.75, "sem": "Spring 2026", "name": 151, "cum": 3.75}, {"x": 4, "y": 3.75, "sem": "Spring 2026", "name": 152, "cum": 3.75}, {"x": 3, "y": 4.0, "sem": "Summer 2026", "name": 153, "cum": 4.0}, {"x": 5, "y": 3.859, "sem": "Spring 2026", "name": 154, "cum": 3.859}, {"x": 1, "y": 3.455, "sem": "Summer 2026", "name": 155, "cum": 3.694}, {"x": 2, "y": 2.231, "sem": "Spring 2026", "name": 156, "cum": 2.158}, {"x": 1, "y": 3.5, "sem": "Spring 2026", "name": 157, "cum": 3.5}, {"x": 2, "y": 4.0, "sem": "Summer 2026", "name": 158, "cum": 4.0}, {"x": 1, "y": 2.5, "sem": "Summer 2026", "name": 159, "cum": 4.0}, {"x": 12, "y": 3.75, "sem": "Spring 2026", "name": 160, "cum": 3.75}, {"x": 1, "y": 3.727, "sem": "Summer 2026", "name": 161, "cum": 3.018}, {"x": 1, "y": 3.583, "sem": "Spring 2026", "name": 162, "cum": 2.64}, {"x": 1, "y": 3.917, "sem": "Spring 2026", "name": 163, "cum": 3.92}, {"x": 2, "y": 4.0, "sem": "Summer 2026", "name": 164, "cum": 4.0}, {"x": 1, "y": 4.0, "sem": "Summer 2026", "name": 165, "cum": 4.0}, {"x": 2, "y": 3.75, "sem": "Summer 2026", "name": 166, "cum": 3.75}, {"x": 1, "y": 4.0, "sem": "Summer 2026", "name": 167, "cum": 4.0}], "reg_line": {"slope": 0.045, "intercept": 3.1942, "x0": 1, "x1": 15}, "sem_summary": {"Fall 2025": {"students": 47, "checkins": 110, "avg_gpa": 3.35}, "Spring 2026": {"students": 91, "checkins": 426, "avg_gpa": 3.37}, "Summer 2026": {"students": 30, "checkins": 65, "avg_gpa": 3.67}}}};
+const G = D.gpa, S = D.summary, K = G.kpi;
+const C = {bg:'#14110D', cream:'#F4ECD8', muted:'#9C907A', gold:'#FFC93C', goldDeep:'#F5A623',
   line:'rgba(244,236,216,0.10)',
   prog:{'Global Achievement Academy':'#FFC93C','Undergraduate':'#FF8360','Intensive English':'#4FD1C5','Master':'#B79CED','PhD':'#9AE36D','Not specified':'#6E6454'},
-  ret:'#FFC93C', first:'#4FD1C5', nores:'#6E6454'
-};
+  ret:'#FFC93C', first:'#4FD1C5', nores:'#6E6454', pos:'#9AE36D', neg:'#FF8360'};
+const SEMC = {'Fall 2025':'#FF8360','Spring 2026':'#FFC93C','Summer 2026':'#4FD1C5'};
 Chart.defaults.color = C.muted;
 Chart.defaults.font.family = "'Inter', sans-serif";
 Chart.defaults.font.size = 12;
-
-const fmt = n => n.toLocaleString();
-const labels = DATA.per_event.map(e=>e.label);
-const springStart = DATA.per_event.findIndex(e=>e.semester==='Spring 2026');
-
-// ---- KPIs ----
-const s = DATA.summary;
-const kpis = [
-  {num:fmt(s.total_attendance), unit:'', lab:'Total check-ins logged', meta:`across ${s.num_events} events`},
-  {num:s.avg_per_event, unit:'', lab:'Average attendance per event', meta:`range ${s.min_event}–${s.max_event}`},
-  {num:s.first_event_total+'→'+s.peak_total, unit:'', lab:'First event to peak event', meta:`${Math.round(s.peak_total/s.first_event_total*10)/10}× growth`},
-  {num:s.fall_avg+'→'+s.spring_avg, unit:'', lab:'Avg/event, Fall → Spring', meta:`+${Math.round((s.spring_avg/s.fall_avg-1)*100)}% per week`},
-];
-document.getElementById('kpis').innerHTML = kpis.map(k=>`
-  <div class="kpi"><div class="num">${k.num}<span class="unit">${k.unit}</span></div>
-  <div class="lab">${k.lab}</div><div class="meta">${k.meta}</div></div>`).join('');
-document.getElementById('dr').textContent = s.date_range[0]+' — '+s.date_range[1];
-
-// shared semester band plugin
-const semBand = {
-  id:'semBand',
-  beforeDraw(chart){
-    const {ctx, chartArea:{top,bottom}, scales:{x}} = chart;
-    if(!x || springStart<0) return;
-    const xPos = x.getPixelForValue(springStart) - (x.getPixelForValue(1)-x.getPixelForValue(0))/2;
-    ctx.save();
-    ctx.fillStyle='rgba(255,201,60,0.05)';
-    ctx.fillRect(xPos, top, chart.chartArea.right - xPos, bottom-top);
-    ctx.strokeStyle='rgba(255,201,60,0.35)'; ctx.setLineDash([4,4]); ctx.lineWidth=1;
-    ctx.beginPath(); ctx.moveTo(xPos,top); ctx.lineTo(xPos,bottom); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle='rgba(156,144,122,0.9)'; ctx.font="700 11px 'Space Mono', monospace";
-    ctx.fillText('FALL 2025', x.getPixelForValue(0), top-6);
-    ctx.fillStyle='rgba(255,201,60,0.9)';
-    ctx.fillText('SPRING 2026', xPos+8, top-6);
-    ctx.restore();
-  }
-};
-
-const tooltipStyle = {
-  backgroundColor:'#0F0C08', borderColor:'rgba(255,201,60,0.3)', borderWidth:1,
+const TT = {backgroundColor:'#0F0C08', borderColor:'rgba(255,201,60,0.3)', borderWidth:1,
   titleColor:'#FFC93C', bodyColor:'#F4ECD8', padding:12, cornerRadius:8,
-  titleFont:{family:"'Space Mono', monospace", size:12}, boxPadding:5
-};
-const gridX = {grid:{display:false}, ticks:{maxRotation:60, minRotation:60, autoSkip:false, font:{size:10}}};
-const gridY = {grid:{color:C.line}, border:{display:false}, ticks:{padding:8}};
+  titleFont:{family:"'Space Mono', monospace", size:12}, boxPadding:5};
+const GX = {grid:{display:false}, ticks:{maxRotation:60, minRotation:60, autoSkip:false, font:{size:9.5}}};
+const GY = {grid:{color:C.line}, border:{display:false}, ticks:{padding:8}};
+const fmt = n=>n.toLocaleString();
+const labels = D.per_event.map(e=>e.label);
+
+// ---- KPI rows ----
+document.getElementById('dr').textContent = S.date_range[0]+' — '+S.date_range[1];
+const kpis = [
+  {num:fmt(S.total_attendance), lab:'Total check-ins logged', meta:`across ${S.num_events} events · 3 semesters`},
+  {num:S.avg_per_event, lab:'Average attendance per event', meta:`range ${S.min_event}–${S.max_event}`},
+  {num:S.first_event_total+'→'+S.peak_total, lab:'First event to peak event', meta:`${Math.round(S.peak_total/S.first_event_total*10)/10}× growth`},
+  {num:S.sem_avg['Fall 2025']+'→'+S.sem_avg['Spring 2026'], lab:'Avg/event, Fall → Spring', meta:`summer so far: ${S.sem_avg['Summer 2026']}/event`},
+];
+document.getElementById('kpis').innerHTML = kpis.map(x=>`<div class="kpi"><div class="num">${x.num}</div><div class="lab">${x.lab}</div><div class="meta">${x.meta}</div></div>`).join('');
+const kpis2 = [
+  {num:`<em>${K.cohort_size}</em>`, lab:'Students in both datasets', meta:`inner join · ${K.matched_checkins} check-ins (${K.match_rate}%)`},
+  {num:`<em>r = ${K.pearson_r}</em>`, lab:'Attendance ↔ semester GPA', meta:`n = ${K.n_corr} · positive`},
+  {num:`3.55 <span style="font-size:16px;color:var(--muted)">vs</span> 3.18`, lab:'Avg GPA: 6+ events vs 1–2', meta:'the loyalty gap'},
+  {num:`${K.multi_sem_students}`, lab:'Came back a 2nd semester', meta:`spring GPA ${K.multi_gpa} vs ${K.single_gpa}`},
+];
+document.getElementById('kpis2').innerHTML = kpis2.map(x=>`<div class="kpi"><div class="num">${x.num}</div><div class="lab">${x.lab}</div><div class="meta">${x.meta}</div></div>`).join('');
+document.getElementById('rval').textContent = K.pearson_r;
+
+// ---- semester band plugin ----
+const semStarts = {};
+D.per_event.forEach((e,i)=>{ if(!(e.semester in semStarts)) semStarts[e.semester]=i; });
+const semBand = {id:'semBand', beforeDraw(ch){
+  const {ctx, chartArea:{top,bottom}, scales:{x}} = ch;
+  if(!x) return;
+  ctx.save();
+  Object.entries(semStarts).forEach(([sem,idx])=>{
+    const half = (x.getPixelForValue(1)-x.getPixelForValue(0))/2;
+    const xp = x.getPixelForValue(idx) - (idx>0 ? half : half+6);
+    if(idx>0){ctx.strokeStyle='rgba(255,201,60,0.35)'; ctx.setLineDash([4,4]); ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(xp,top); ctx.lineTo(xp,bottom); ctx.stroke(); ctx.setLineDash([]);}
+    if(sem==='Spring 2026'){ctx.fillStyle='rgba(255,201,60,0.05)';
+      const nxt = Object.values(semStarts).find(v=>v>idx);
+      const xe = nxt!==undefined ? x.getPixelForValue(nxt)-half : ch.chartArea.right;
+      ctx.fillRect(xp,top,xe-xp,bottom-top);}
+    ctx.fillStyle = sem==='Fall 2025' ? 'rgba(156,144,122,0.9)' : (sem==='Spring 2026' ? 'rgba(255,201,60,0.9)' : 'rgba(79,209,197,0.95)');
+    ctx.font="700 10.5px 'Space Mono', monospace";
+    ctx.fillText(sem.toUpperCase(), Math.max(xp+8,8), top-6);
+  });
+  ctx.restore();
+}};
 
 // ---- 1. Growth ----
+const breakIdx = D.per_event.findIndex(e=>e.date==='2026-03-18');
+const springBreak = {id:'springBreak', afterDatasetsDraw(ch){
+  if(breakIdx<0) return;
+  const {ctx, chartArea:{top,bottom}, scales:{x}} = ch;
+  const xp = x.getPixelForValue(breakIdx);
+  ctx.save();
+  ctx.strokeStyle='rgba(79,209,197,0.45)'; ctx.setLineDash([2,4]); ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(xp,top+12); ctx.lineTo(xp,bottom); ctx.stroke(); ctx.setLineDash([]);
+  ctx.translate(xp-6, top + (bottom-top)*0.40);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillStyle='rgba(79,209,197,0.9)'; ctx.font="700 10px 'Space Mono', monospace";
+  ctx.textAlign='center';
+  ctx.fillText('SPRING BREAK', 0, 0);
+  ctx.restore();
+}};
 const ctxG = document.getElementById('growth');
 const grad = ctxG.getContext('2d').createLinearGradient(0,0,0,380);
 grad.addColorStop(0,'rgba(255,201,60,0.85)'); grad.addColorStop(1,'rgba(255,201,60,0.25)');
 new Chart(ctxG,{
-  type:'bar',
   data:{labels, datasets:[
-    {type:'line', label:'Trend', data:DATA.per_event.map(e=>e.total),
-     borderColor:C.gold, borderWidth:2.5, tension:0.4, pointRadius:0,
-     pointHoverRadius:5, pointHoverBackgroundColor:C.gold, fill:false, order:0},
-    {type:'bar', label:'Attendance', data:DATA.per_event.map(e=>e.total),
-     backgroundColor:grad, borderRadius:5, maxBarThickness:30, order:1}
+    {type:'line', label:'Trend', data:D.per_event.map(e=>e.total), borderColor:C.gold, borderWidth:2.5,
+     tension:0.4, pointRadius:0, pointHoverRadius:5, pointHoverBackgroundColor:C.gold, order:0},
+    {type:'line', label:'GAA cohort', data:D.per_event.map(e=>e.cohort), borderColor:'#4FD1C5', borderWidth:2,
+     tension:0.35, pointRadius:0, pointHoverRadius:5, borderDash:[1,0], order:0},
+    {type:'bar', label:'Attendance', data:D.per_event.map(e=>e.total),
+     backgroundColor:D.per_event.map((e,i)=>i===breakIdx?'rgba(79,209,197,0.30)':(e.semester==='Summer 2026'?'rgba(255,201,60,0.45)':grad)),
+     borderRadius:5, maxBarThickness:28, order:1}
   ]},
-  options:{responsive:true, maintainAspectRatio:false,
-    interaction:{mode:'index', intersect:false},
-    plugins:{legend:{display:false}, tooltip:{...tooltipStyle,
-      callbacks:{label:c=>c.datasetIndex===1?`  ${c.parsed.y} attendees`:null,
-        title:items=>{const e=DATA.per_event[items[0].dataIndex]; return e.label+' · '+e.semester;}}}},
-    scales:{x:gridX, y:{...gridY, beginAtZero:true, title:{display:true,text:'Attendees',color:C.muted}}}},
-  plugins:[semBand]
+  options:{responsive:true, maintainAspectRatio:false, interaction:{mode:'index', intersect:false},
+    layout:{padding:{top:16}},
+    plugins:{legend:{display:false}, tooltip:{...TT, callbacks:{
+      title:i=>{const e=D.per_event[i[0].dataIndex];
+        return i[0].dataIndex===breakIdx ? [e.label+' · '+e.semester, '⛱ Spring Break Week'] : e.label+' · '+e.semester;},
+      label:c=>c.datasetIndex===2?`  ${c.parsed.y} attendees${c.dataIndex===breakIdx?' (campus on break)':''}`:(c.datasetIndex===1?`  ${c.parsed.y} from GAA cohort`:null)}}},
+    scales:{x:GX, y:{...GY, beginAtZero:true, title:{display:true,text:'Attendees',color:C.muted}}}},
+  plugins:[semBand, springBreak]
 });
-
-// growth insight
-const fallEvents = DATA.per_event.filter(e=>e.semester==='Fall 2025');
-const peak = DATA.per_event.reduce((a,b)=>b.total>a.total?b:a);
+document.getElementById('growthLegend').innerHTML =
+  `<div class="lg"><span class="dot" style="background:${C.gold}"></span>All attendees</div>`+
+  `<div class="lg"><span class="dot" style="background:#4FD1C5"></span>GAA intersection cohort</div>`+
+  `<div class="lg"><span class="dot" style="background:rgba(255,201,60,0.45)"></span>Summer (ongoing)</div>`+
+  `<div class="lg"><span class="dot" style="background:rgba(79,209,197,0.30); border:1px dashed rgba(79,209,197,0.7)"></span>Spring break week (Mar 18)</div>`;
+const peak = D.per_event.reduce((a,b)=>b.total>a.total?b:a);
 document.getElementById('growth-insight').innerHTML =
-  `<b>The trajectory:</b> a 9-person opening Wednesday in September grew into a steady 50–69 each week by spring. The single highest turnout was <b>${peak.total}</b> on <b>${peak.label}</b>. Dips (e.g. mid-March) line up with breaks and the week of cancellation — the underlying trend stayed up and to the right.`;
+  `<b>The trajectory:</b> a 9-person opening night in September grew into a steady 50–69 each week by spring — peak <b>${peak.total}</b> on <b>${peak.label}</b> — and the event carried roughly ${S.sem_avg['Summer 2026']} per week into the smaller summer term, when most pathway students have completed or gone home. Dips line up with breaks and cancellations; the trend stayed up and to the right.`;
 
 // ---- 2. Program stacked area ----
-const cats = DATA.prog_categories;
-new Chart(document.getElementById('progArea'),{
-  type:'line',
-  data:{labels, datasets:cats.map(cat=>({
-    label:cat, data:DATA.per_event.map(e=>e[cat]||0),
-    backgroundColor:C.prog[cat]+'cc', borderColor:C.prog[cat], borderWidth:1,
-    fill:true, tension:0.35, pointRadius:0, pointHoverRadius:4
-  }))},
-  options:{responsive:true, maintainAspectRatio:false,
-    interaction:{mode:'index', intersect:false},
-    plugins:{legend:{display:false}, tooltip:{...tooltipStyle,
-      callbacks:{title:items=>DATA.per_event[items[0].dataIndex].label}}},
-    scales:{x:gridX, y:{...gridY, stacked:true, beginAtZero:true}}},
+const cats = D.prog_categories;
+new Chart(document.getElementById('progArea'),{type:'line',
+  data:{labels, datasets:cats.map(cat=>({label:cat, data:D.per_event.map(e=>e[cat]||0),
+    backgroundColor:C.prog[cat]+'cc', borderColor:C.prog[cat], borderWidth:1, fill:true, tension:0.35, pointRadius:0, pointHoverRadius:4}))},
+  options:{responsive:true, maintainAspectRatio:false, interaction:{mode:'index', intersect:false},
+    layout:{padding:{top:16}},
+    plugins:{legend:{display:false}, tooltip:{...TT, callbacks:{title:i=>D.per_event[i[0].dataIndex].label}}},
+    scales:{x:GX, y:{...GY, stacked:true, beginAtZero:true}}},
   plugins:[semBand]
 });
-const legendHTML = (cat, val) => `<div class="lg"><span class="dot" style="background:${C.prog[cat]}"></span>${cat} <span class="v">${val}</span></div>`;
-document.getElementById('progLegend').innerHTML = cats.filter(c=>DATA.program_totals[c]>0).map(c=>legendHTML(c,DATA.program_totals[c])).join('');
+document.getElementById('progLegend').innerHTML = cats.filter(c=>D.program_totals[c]>0)
+  .map(c=>`<div class="lg"><span class="dot" style="background:${C.prog[c]}"></span>${c} <span class="v">${D.program_totals[c]}</span></div>`).join('');
 
 // ---- 3. Program donut ----
-const pcats = cats.filter(c=>DATA.program_totals[c]>0);
-new Chart(document.getElementById('progDonut'),{
-  type:'doughnut',
-  data:{labels:pcats, datasets:[{data:pcats.map(c=>DATA.program_totals[c]),
-    backgroundColor:pcats.map(c=>C.prog[c]), borderColor:C.bg, borderWidth:3, hoverOffset:8}]},
+const pcats = cats.filter(c=>D.program_totals[c]>0);
+new Chart(document.getElementById('progDonut'),{type:'doughnut',
+  data:{labels:pcats, datasets:[{data:pcats.map(c=>D.program_totals[c]), backgroundColor:pcats.map(c=>C.prog[c]),
+    borderColor:C.bg, borderWidth:3, hoverOffset:8}]},
   options:{responsive:true, maintainAspectRatio:false, cutout:'62%',
-    plugins:{legend:{display:false}, tooltip:{...tooltipStyle,
-      callbacks:{label:c=>` ${c.label}: ${c.parsed} (${Math.round(c.parsed/s.total_attendance*100)}%)`}}}}
+    plugins:{legend:{display:false}, tooltip:{...TT, callbacks:{label:c=>` ${c.label}: ${c.parsed} (${Math.round(c.parsed/S.total_attendance*100)}%)`}}}}
 });
 document.getElementById('progDonutLegend').innerHTML = pcats.map(c=>{
-  const raw = DATA.program_totals[c]/s.total_attendance*100;
-  const pct = (raw>0 && raw<0.5) ? '<1%' : Math.round(raw)+'%';
+  const raw = D.program_totals[c]/S.total_attendance*100;
+  const pct = (raw>0 && raw<0.5) ? '&lt;1%' : Math.round(raw)+'%';
   return `<div class="lg"><span class="dot" style="background:${C.prog[c]}"></span>${c} <span class="v">${pct}</span></div>`;
 }).join('');
 
-// ---- 4. Returning vs first donut ----
-const pt = DATA.prev_totals;
-const prevKeys = Object.keys(pt);
-const prevCols = [C.ret, C.first, C.nores];
-new Chart(document.getElementById('prevDonut'),{
-  type:'doughnut',
-  data:{labels:['Returning','First-timer','No response'], datasets:[{data:prevKeys.map(k=>pt[k]),
-    backgroundColor:prevCols, borderColor:C.bg, borderWidth:3, hoverOffset:8}]},
+// ---- 4. Returning vs first ----
+const pt = D.prev_totals;
+new Chart(document.getElementById('prevDonut'),{type:'doughnut',
+  data:{labels:['Returning','First-timer','No response'], datasets:[{data:[pt['Returning'],pt['First-timer'],pt['No response']],
+    backgroundColor:[C.ret,C.first,C.nores], borderColor:C.bg, borderWidth:3, hoverOffset:8}]},
   options:{responsive:true, maintainAspectRatio:false, cutout:'62%',
-    plugins:{legend:{display:false}, tooltip:{...tooltipStyle,
-      callbacks:{label:c=>` ${c.label}: ${c.parsed} (${Math.round(c.parsed/s.total_attendance*100)}%)`}}}}
+    plugins:{legend:{display:false}, tooltip:{...TT, callbacks:{label:c=>` ${c.label}: ${c.parsed} (${Math.round(c.parsed/S.total_attendance*100)}%)`}}}}
 });
-const retPct = Math.round(pt[prevKeys[0]]/(pt[prevKeys[0]]+pt[prevKeys[1]])*100);
+const retPct = Math.round(pt['Returning']/(pt['Returning']+pt['First-timer'])*100);
 document.getElementById('prevLegend').innerHTML =
-  `<div class="lg"><span class="dot" style="background:${C.ret}"></span>Returning <span class="v">${pt[prevKeys[0]]} · ${retPct}%</span></div>`+
-  `<div class="lg"><span class="dot" style="background:${C.first}"></span>First-timer <span class="v">${pt[prevKeys[1]]} · ${100-retPct}%</span></div>`+
-  `<div class="lg"><span class="dot" style="background:${C.nores}"></span>No response <span class="v">${pt[prevKeys[2]]}</span></div>`;
+  `<div class="lg"><span class="dot" style="background:${C.ret}"></span>Returning <span class="v">${pt['Returning']} · ${retPct}%</span></div>`+
+  `<div class="lg"><span class="dot" style="background:${C.first}"></span>First-timer <span class="v">${pt['First-timer']} · ${100-retPct}%</span></div>`+
+  `<div class="lg"><span class="dot" style="background:${C.nores}"></span>No response <span class="v">${pt['No response']}</span></div>`;
 
-// ---- 5. First-timers by program (100% stacked horizontal) ----
-const pbp = DATA.prev_by_prog;
-const pbpCats = Object.keys(pbp).filter(c=>c!=='Not specified');
-new Chart(document.getElementById('prevProg'),{
-  type:'bar',
+// ---- 5. First-timers by program ----
+const pbp = D.prev_by_prog;
+const pbpCats = Object.keys(pbp);
+new Chart(document.getElementById('prevProg'),{type:'bar',
   data:{labels:pbpCats, datasets:[
     {label:'Returning', data:pbpCats.map(c=>pbp[c].Returning), backgroundColor:C.ret, borderRadius:4, stack:'a'},
-    {label:'First-timer', data:pbpCats.map(c=>pbp[c]['First-timer']), backgroundColor:C.first, borderRadius:4, stack:'a'}
-  ]},
-  options:{responsive:true, maintainAspectRatio:false, indexAxis:'y',
-    interaction:{mode:'index', intersect:false},
-    plugins:{legend:{display:false}, tooltip:{...tooltipStyle,
-      callbacks:{label:c=>{const t=pbp[c.label.split(',')[0]]; return ` ${c.dataset.label}: ${c.parsed.x}`;}}}},
-    scales:{x:{...gridY, stacked:true, beginAtZero:true}, y:{grid:{display:false}, ticks:{font:{size:11}}}}}
+    {label:'First-timer', data:pbpCats.map(c=>pbp[c]['First-timer']), backgroundColor:C.first, borderRadius:4, stack:'a'}]},
+  options:{responsive:true, maintainAspectRatio:false, indexAxis:'y', interaction:{mode:'index', intersect:false},
+    plugins:{legend:{display:false}, tooltip:{...TT}},
+    scales:{x:{...GY, stacked:true, beginAtZero:true}, y:{grid:{display:false}, ticks:{font:{size:11}}}}}
 });
 document.getElementById('prevProgLegend').innerHTML =
   `<div class="lg"><span class="dot" style="background:${C.ret}"></span>Returning</div>`+
   `<div class="lg"><span class="dot" style="background:${C.first}"></span>First UCF Global event</div>`;
 
 // ---- 6. Semester comparison ----
-const sb = DATA.program_by_sem;
+const sb = D.program_by_sem;
 const semCats = cats.filter(c=>c!=='Not specified');
-new Chart(document.getElementById('semBar'),{
-  type:'bar',
-  data:{labels:['Fall 2025','Spring 2026'], datasets:semCats.map(c=>({
-    label:c, data:['Fall 2025','Spring 2026'].map(se=>sb[se][c]||0),
-    backgroundColor:C.prog[c], borderRadius:4, maxBarThickness:90
-  }))},
+const semNames = Object.keys(SEMC);
+new Chart(document.getElementById('semBar'),{type:'bar',
+  data:{labels:semNames, datasets:semCats.map(c=>({label:c, data:semNames.map(se=>sb[se][c]||0),
+    backgroundColor:C.prog[c], borderRadius:4, maxBarThickness:70}))},
   options:{responsive:true, maintainAspectRatio:false,
-    plugins:{legend:{display:false}, tooltip:{...tooltipStyle}},
+    plugins:{legend:{display:false}, tooltip:{...TT}},
     scales:{x:{grid:{display:false}, ticks:{font:{family:"'Bricolage Grotesque'",size:14}}},
-      y:{...gridY, beginAtZero:true, title:{display:true,text:'Total attendees',color:C.muted}}}}
+      y:{...GY, beginAtZero:true, title:{display:true,text:'Total attendees',color:C.muted}}}}
 });
 document.getElementById('semLegend').innerHTML = semCats.map(c=>`<div class="lg"><span class="dot" style="background:${C.prog[c]}"></span>${c}</div>`).join('');
 document.getElementById('sem-insight').innerHTML =
-  `<b>Fall → Spring:</b> total attendance rose from <b>${fmt(s.fall_total)}</b> across ${s.fall_events} events to <b>${fmt(s.spring_total)}</b> across ${s.spring_events} — and average weekly turnout climbed from <b>${s.fall_avg}</b> to <b>${s.spring_avg}</b>. Growth came mostly from more Global Achievement Academy and Undergraduate students filling the room.`;
+  `<b>Fall → Spring → Summer:</b> ${fmt(S.sem_tot['Fall 2025'])} check-ins across ${S.sem_events['Fall 2025']} events, then <b>${fmt(S.sem_tot['Spring 2026'])}</b> across ${S.sem_events['Spring 2026']} (avg ${S.sem_avg['Fall 2025']} → <b>${S.sem_avg['Spring 2026']}</b> per week, +84%). Summer's first ${S.sem_events['Summer 2026']} events are averaging ${S.sem_avg['Summer 2026']} — strong for a term when most pathway students have completed.`;
 
-// ---- notes ----
+// ============ GPA CHAPTER ============
+// ---- 7. Scatter ----
+function jitter(seed){ const s = Math.sin(seed*9973)*10000; return (s-Math.floor(s)-0.5)*0.36; }
+const scatterSets = semNames.map(sem=>({label:sem, type:'scatter',
+  data:G.scatter.filter(p=>p.sem===sem).map((p,i)=>({x:p.x + jitter(p.x*100+i), y:p.y, name:p.name, rawX:p.x, cum:p.cum})),
+  backgroundColor:SEMC[sem]+'B8', borderColor:SEMC[sem], borderWidth:1, pointRadius:5, pointHoverRadius:8}));
+const rl = G.reg_line;
+scatterSets.push({label:'Trend (completed semesters)', type:'line',
+  data:[{x:rl.x0,y:rl.slope*rl.x0+rl.intercept},{x:rl.x1,y:rl.slope*rl.x1+rl.intercept}],
+  borderColor:C.gold, borderDash:[7,5], borderWidth:2, pointRadius:0});
+new Chart(document.getElementById('scatter'),{data:{datasets:scatterSets},
+  options:{responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}, tooltip:{...TT, callbacks:{
+      title:i=>{const p=i[0].raw; return p.name||'Trend';},
+      label:i=>{const p=i.raw; return p.name?[` ${i.dataset.label}`,` ${p.rawX} event${p.rawX>1?'s':''} · sem GPA ${p.y.toFixed(2)}`,p.cum?` cumulative GPA ${p.cum.toFixed(2)}`:'']:null;}}}},
+    scales:{x:{...GY, title:{display:true,text:'Popcorn & Games events attended (semester)',color:C.muted}, ticks:{stepSize:1}, min:0},
+            y:{...GY, title:{display:true,text:'Semester GPA',color:C.muted}, min:0, max:4.2}}}
+});
+document.getElementById('scatterLegend').innerHTML = semNames.map(s=>
+  `<div class="lg"><span class="dot" style="background:${SEMC[s]}"></span>${s} <span class="v">${G.sem_summary[s].students} students</span></div>`).join('')+
+  `<div class="lg"><span class="dot" style="background:${C.gold}; height:3px; border-radius:2px"></span>OLS trend</div>`;
+
+// ---- 8. Tiers + drift ----
+const tc = G.tiers['Combined'];
+const tierLabels = ['1–2 events','3–5 events','6+ events'];
+new Chart(document.getElementById('tiers'),{type:'bar',
+  data:{labels:tierLabels.map(t=>[t,`n = ${tc[t].n}`]), datasets:[{data:tierLabels.map(t=>tc[t].avg_gpa),
+    backgroundColor:['rgba(255,201,60,0.35)','rgba(255,201,60,0.7)',C.gold], borderRadius:8, maxBarThickness:90}]},
+  options:{responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}, tooltip:{...TT, callbacks:{label:c=>` avg semester GPA ${c.parsed.y}`}}},
+    scales:{x:{grid:{display:false}}, y:{...GY, min:2.6, max:4.0, title:{display:true,text:'Avg semester GPA',color:C.muted}}}}
+});
+new Chart(document.getElementById('drift'),{type:'bar',
+  data:{labels:tierLabels.map(t=>[t,`n = ${tc[t].n}`]), datasets:[{data:tierLabels.map(t=>tc[t].avg_delta),
+    backgroundColor:tierLabels.map(t=>tc[t].avg_delta<-0.1?C.neg:C.pos), borderRadius:8, maxBarThickness:60}]},
+  options:{responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{legend:{display:false}, tooltip:{...TT, callbacks:{label:c=>` avg GPA change ${c.parsed.x>0?'+':''}${c.parsed.x.toFixed(2)}`}}},
+    scales:{x:{...GY, title:{display:true,text:'Avg GPA change over the semester',color:C.muted}}, y:{grid:{display:false}}}}
+});
+
+// ---- 9. Weekly bands ----
+function bandChart(id, sem, color, nId){
+  const b = G.bands[sem];
+  const ns = b.filter(x=>x.n>=5).map(x=>x.n);
+  document.getElementById(nId).textContent = ns.length? `${Math.min(...ns)}–${Math.max(...ns)} students/week tracked` : 'no data yet';
+  new Chart(document.getElementById(id),{type:'line',
+    data:{labels:b.map(x=>'W'+x.week), datasets:[
+      {data:b.map(x=>x.q3), borderWidth:0, pointRadius:0, fill:'+1', backgroundColor:color+'2E', spanGaps:false},
+      {data:b.map(x=>x.q1), borderWidth:0, pointRadius:0, fill:false, spanGaps:false},
+      {data:b.map(x=>x.mean), borderColor:color, borderWidth:2.5, pointRadius:2, pointBackgroundColor:color, tension:0.3, spanGaps:false}]},
+    options:{responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}, tooltip:{...TT, filter:i=>i.datasetIndex===2,
+        callbacks:{label:c=>{const e=b[c.dataIndex]; return [` mean ${e.mean?.toFixed(2)}`,` IQR ${e.q1?.toFixed(2)}–${e.q3?.toFixed(2)}`,` n = ${e.n}`];}}}},
+      scales:{x:{grid:{display:false}, ticks:{font:{size:9}, maxRotation:0, autoSkip:true}},
+              y:{...GY, min:2.4, max:4.0, ticks:{stepSize:0.4}}}}
+  });
+}
+bandChart('bandFall','Fall 2025',SEMC['Fall 2025'],'fallN');
+bandChart('bandSpring','Spring 2026',SEMC['Spring 2026'],'springN');
+bandChart('bandSummer','Summer 2026',SEMC['Summer 2026'],'summerN');
+
+// ---- 10. Returners + scorecard ----
+document.getElementById('multiN').textContent = K.multi_sem_students;
+new Chart(document.getElementById('returners'),{type:'bar',
+  data:{labels:[['Attended in 2+ semesters','n = 44'],['One semester only','n = 47']],
+    datasets:[{data:[K.multi_gpa,K.single_gpa], backgroundColor:[C.gold,'rgba(255,201,60,0.35)'], borderRadius:8, maxBarThickness:90}]},
+  options:{responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}, tooltip:{...TT, callbacks:{label:c=>` Spring 2026 avg GPA ${c.parsed.y}`}}},
+    scales:{x:{grid:{display:false}}, y:{...GY, min:2.8, max:3.8, title:{display:true,text:'Spring 2026 avg GPA',color:C.muted}}}}
+});
+const ss = G.sem_summary;
+new Chart(document.getElementById('scorecard'),{type:'bar',
+  data:{labels:semNames, datasets:[
+    {label:'Cohort students', data:semNames.map(s=>ss[s].students), backgroundColor:semNames.map(s=>SEMC[s]+'CC'), borderRadius:6, yAxisID:'y', maxBarThickness:60},
+    {label:'Avg sem GPA', data:semNames.map(s=>ss[s].avg_gpa), type:'line', borderColor:C.cream, borderWidth:2, pointBackgroundColor:C.cream, pointRadius:5, yAxisID:'y2'}]},
+  options:{responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}, tooltip:{...TT}},
+    scales:{x:{grid:{display:false}}, y:{...GY, beginAtZero:true, title:{display:true,text:'Students',color:C.muted}},
+      y2:{position:'right', min:3.0, max:4.0, grid:{display:false}, title:{display:true,text:'Avg GPA',color:C.muted}}}}
+});
+document.getElementById('scoreLegend').innerHTML =
+  `<div class="lg"><span class="dot" style="background:${C.gold}"></span>Cohort students per semester</div>`+
+  `<div class="lg"><span class="dot" style="background:${C.cream}"></span>Avg semester GPA (right axis)</div>`;
+
+// ---- closers ----
+document.getElementById('bigInsight').innerHTML =
+  `<b>The takeaway:</b> the regulars don't just post higher GPAs (3.55–3.63 vs 3.18) — they <b>protect</b> them. One-or-two-time attendees slid an average of −0.24 GPA over the semester, while 3+ event attendees ended essentially where they started. Whether the event builds the support network or the network brings students to the event, weekly attendance is the most visible behavioral marker of academic steadiness in this data.`;
 document.getElementById('notes').innerHTML =
-  `<b style="color:var(--cream)">Notes.</b> Source: <code>Popcorn_&_Games</code> check-in survey, ${s.date_range[0]}–${s.date_range[1]} (${fmt(s.total_attendance)} responses, all completed). One event = one Wednesday; two late check-ins logged the following day were folded into their event. ` +
-  `The "What program are you in?" and "Attended a UCF Global event before?" questions were added after the first one or two events, so ${pt['No response']} early records show "No response" on prior-attendance and 10 show no program — these are excluded from the percentage splits rather than counted as zero.`;
+  `<b>Notes & methodology.</b> Sources: <code>Popcorn & Games</code> Qualtrics check-ins (${S.date_range[0]} – ${S.date_range[1]}, ${fmt(S.total_attendance)} responses, ${S.num_events} events; two late check-ins folded into their Wednesday event) × the <code>GAA</code> tab of the Fall 2025, Spring 2026 and Summer 2026 Academic Tracking workbooks — all other tabs ignored. The program and prior-attendance survey questions were added after the first one or two events, so a handful of early records show "Not specified"/"No response"; these are excluded from percentage splits. `+
+  `<b>Matching:</b> inner join — only students present in both datasets count toward the GPA chapter. 573 check-ins matched on exact UCF ID, 26 on UCF email, 2 by conservative name matching after normalizing case/accents/whitespace (both were ID typos on the sign-in form). GAA students who never attended are excluded throughout. `+
+  `<b>GPA:</b> "semester GPA" uses the Final Semester GPA column where recorded; where finals weren't recorded (mostly Fall) the latest tracked weekly value stands in. Spring week 10 was spring break — no tracking. <b>Summer 2026 is in progress</b> (weeks 2–4 tracked so far): summer figures are early reads, drawn dimmer/badged, and excluded from the trend line and tier averages. `+
+  `<b>Caution:</b> n is modest, GPA is capped at 4.0, and attendance is self-selected — treat associations as signals to investigate, not proven effects.`;
 </script>
 </body>
 </html>
